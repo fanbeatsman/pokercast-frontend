@@ -14,4 +14,6 @@ var allowCrossDomain = function(req, res, next) {
 app.use(allowCrossDomain);
 app.use(express.static(__dirname));
 
-var server = app.listen(port);
+var server = app.listen(port, function() {
+    console.log('Listening on port %d', server.address().port);
+});
