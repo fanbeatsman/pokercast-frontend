@@ -37,6 +37,8 @@ limitations under the License.
     <title>Cast Hello Text</title>
   </head>
   <body>
+  	
+  	<!-- DEFAULT MESSAGE -->
         <DIV id="message">Talk to me</DIV>
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
     <script type="text/javascript">
@@ -80,7 +82,7 @@ limitations under the License.
         window.messageBus.onMessage = function(event) {
           console.log('Message [' + event.senderId + ']: ' + event.data);
           // display the message from the sender
-          displayText(event.data);
+          displayText(event.data + " extra text ");
           // inform all senders on the CastMessageBus of the incoming message event
           // sender message listener will be invoked
           window.messageBus.send(event.senderId, event.data);
@@ -93,9 +95,9 @@ limitations under the License.
       
       // utility function to display the text message in the input field
       function displayText(text) {
-        console.log(text);
-        document.getElementById("message").innerHTML=text;
-        window.castReceiverManager.setApplicationState(text);
+        console.log(text + "gasdfa");
+        //document.getElementById("message").innerHTML=text;
+        window.castReceiverManager.setApplicationState(text + "hello");
       };
     </script>
   </body>
