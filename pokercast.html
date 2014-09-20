@@ -1,92 +1,20 @@
-<!-- Fan Ma  affasdfaf
-Copyright (C) 2014 Google Inc. All Rights Reserved.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-<!DOCTYPE html>
+{% load static %}
 <html>
 <head>
 
-<link href="css/poker.css" rel="stylesheet">
+<link href="{% static 'css/poker.css' %}" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- bootstrap -->
 
-    <link href="css/bootstrap-fluid-adj.css" rel="stylesheet">
-    <link href="css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="css/bootstrap-responsive.css" rel="stylesheet"/>
-    <title>Sample Media Receiver</title>
-    <!--
-        Cast APIs
-    -->
-    <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
-    <!--
-        Cast Media Library
-    -->
-    <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/mediaplayer/0.7.0/media_player.js"></script>
-
-    <style>
-        body {
-            overflow:hidden;
-        }
-        video {
-            height:auto;
-            width:100%;
-            text-align: center;
-            border:0px solid silver;
-            display: table-cell;
-            vertical-align: middle;
-            color: #FFFFFF;
-            background-color: #000000;
-            font-weight: bold;
-            font-family: Verdana, Geneva, sans-serif;
-            font-size:40px;
-            float:left;
-            z-index: 1;
-            position:absolute;
-        }
-        #messages {
-            color: #FFFFFF;
-            float: left;
-            margin-left: 25px;
-            margin-top:  25px;
-            z-index: 2;
-            position:absolute;
-            font-weight: bold;
-            width:1000PX;
-            background-color: rgba(0,0,0,0.5);
-        }
-
-        #messages span {
-            font-weight: normal;
-        }
-    </style>
+    <link href="{% static 'css/bootstrap-fluid-adj.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet"/>
 </head>
+
 <body>
-    <div id="messages">
-        <div id="title">Sample Media Receiver HUD</div>
-        <div>Application State: <span id="applicationState">-</span></div>
-        <div>Session Count: <span id="sessionCount">0</span></div>
-        <div>Media Element State: <span  id="mediaElementState">-</span></div>
-        <div>Cast Receiver Manager Message: <span  id="castReceiverManagerMessage">-</span></div>
-        <div>Media Manager Message: <span  id="mediaManagerMessage">-</span></div>
-        <div>Message Bus Message: <span  id="messageBusMessage">-</span></div>
-        <div>Volume: <span  id="volumeMessage">Unknown</span></div>
-        <div>Host State: <span id="mediaHostState">Unknown</span></div>
-        <div>Media Type: <span id="mediaType">Unkown</span></div>
-        <div>Media Protocol: <span id="mediaProtocol">Unknown</span></div>
-    </div>
-    <video id="receiverVideoElement"></video>
-<!--
+
+TEST PAGE<!--
 <div class="gallery packery">
 
 	<div class="item"> <img src="{% static 'cards/Spades/AS.svg' %}" /></div>
@@ -107,7 +35,7 @@ limitations under the License.
       
     </div>
     <div class="back">
-      <img src="cards/cardback.png" />
+      <img src="{% static 'cards/cardback.png' %}" />
     </div>
   </div>
   </div>
@@ -122,7 +50,7 @@ limitations under the License.
       
     </div>
     <div class="back">
-      <img src="cards/cardback.png" />
+      <img src="{% static 'cards/cardback.png' %}" />
     </div>
   </div>
   </div>
@@ -153,7 +81,7 @@ limitations under the License.
 
           </div>
           <div class="back">
-            <img src="cards/cardback.png" />
+            <img src="{% static 'cards/cardback.png' %}" />
           </div>
         </div>
       </div>
@@ -169,7 +97,7 @@ limitations under the License.
 
           </div>
           <div class="back">
-            <img src="cards/cardback.png" />
+            <img src="{% static 'cards/cardback.png' %}" />
           </div>
         </div>
       </div>
@@ -193,7 +121,7 @@ limitations under the License.
 
           </div>
           <div class="back big">
-            <img src="cards/cardback.png" />
+            <img src="{% static 'cards/cardback.png' %}" />
           </div>
         </div>
       </div>
@@ -216,7 +144,7 @@ limitations under the License.
 
           </div>
           <div class="back">
-            <img src="cards/cardback.png" />
+            <img src="{% static 'cards/cardback.png' %}" />
           </div>
         </div>
       </div>
@@ -231,7 +159,7 @@ limitations under the License.
 
           </div>
           <div class="back">
-            <img src="cards/cardback.png" />
+            <img src="{% static 'cards/cardback.png' %}" />
           </div>
         </div>
       </div>
@@ -254,7 +182,7 @@ limitations under the License.
 
           </div>
           <div class="back">
-            <img src="cards/cardback.png" />
+            <img src="{% static 'cards/cardback.png' %}" />
           </div>
         </div>
       </div>
@@ -274,12 +202,8 @@ limitations under the License.
 
 
 </div>
+</body>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="{% static 'js/jquery.easing.1.3.js' %}"></script><script src="{% static 'js/poker.min.js' %}"></script><script src="{% static 'js/pokercast.js' %}"></script>
-
-
-
-    <script type="text/javascript" src="/js/init.js"></script>
-</body>
 </html>

@@ -1,9 +1,23 @@
 //insert a <img> to the end of body
-document.body.appendChild(Poker.getCardImage(300,'hearts','q'));
+var playerNum = 6;
+var $cardElement = "<div class=\"item\"><div class=\"flip-container big\" ontouchstart=\"this.classList.toggle('hover');\"><div class=\"flipper big\"><div class=\"front big\"><!-- front content --></div><div class=\"back big\"><img src=\"/static/cards/cardback.png\" /></div></div></div></div></div>";
 
-var front = $('.front').add(Poker.getCardImage(300,'hearts','q'));
+function addPokerPlayer(card1, card2){
 
-$('.front').append(Poker.getCardImage(480,'hearts','q'));
+	classNum = '.' + String(playerNum);
+	$(classNum).append($cardElement);	
+	playerNum=playerNum + 1;
+}
+
+
+$(function(){
+
+	addPokerPlayer();
+	$('.front').append(Poker.getCardImage(500,'hearts','q'));
+	$('#test').click(function(){$('.flip-container').toggleClass('hover');});
+	//$('.1').append()
+
+});
 
 //insert a <canvas> to the end of body
 //document.body.appendChild(Poker.getCardCanvas(60,'hearts','q'));
