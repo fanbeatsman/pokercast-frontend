@@ -1,0 +1,294 @@
+<!--
+Copyright (C) 2014 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!DOCTYPE html>
+<html>
+<<<<<<< HEAD
+	<head>
+		<style type="text/css">
+			body {
+				overflow: hidden;
+			}
+			#playerConnectionLog {
+				height: 400PX;
+				width: 200PX;
+				right: 0px;
+				text-align: left;
+				border: 10px solid silver;
+				display: table-cell;
+				color: #FFFFFF;
+				background-color: #000000;
+				font-weight: bold;
+				font-family: Verdana, Geneva, sans-serif;
+				font-size: 12px;
+			}
+
+			#consoleLog {
+				height: 400PX;
+				width: 200PX;
+				right: 0px;
+				text-align: right;
+				border: 10px solid silver;
+				display: table-cell;
+				color: #FFFFFF;
+				background-color: #000000;
+				font-weight: bold;
+				font-family: Verdana, Geneva, sans-serif;
+				font-size: 12px;
+			}
+		</style>
+		<title>Cast Hello Text</title>
+		
+	</head>
+	<body>
+
+		<!-- DEFAULT MESSAGE -->
+
+		<div id="playerConnectionLog">
+			Game Log...
+		</div>
+		<div id="consoleLog">
+			Console Log...
+		</div>
+
+		<script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+		<script type="text/javascript">
+
+			var playersList = [];
+			var consoleLog = '';
+
+			window.onload = function() {
+				cast.receiver.logger.setLevelValue(0);
+				window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+				console.log('Starting Receiver Manager');
+
+				// handler for the 'ready' event
+				castReceiverManager.onReady = function(event) {
+					console.log('Received Ready event: ' + JSON.stringify(event.data));
+					window.castReceiverManager.setApplicationState("Application status is ready...");
+				};
+
+				// handler for 'senderconnected' event
+				castReceiverManager.onSenderConnected = function(event) {
+
+					console.log('Received Sender Connected event: ' + event.data);
+					console.log(window.castReceiverManager.getSender(event.data).userAgent);
+
+					//playersList.push('Sender ID = ' + event.senderId + ' || data = ' + event.data);
+
+				};
+
+				// handler for 'senderdisconnected' event
+				castReceiverManager.onSenderDisconnected = function(event) {
+					console.log('Received Sender Disconnected event: ' + event.data);
+
+					// we want to remove the player from the player list if he disconnects
+					for (var i = 0; i < playerList.length; i++) {
+
+						if (playerList[i].senderId = event.senderId) {
+							var tempPlayerListIndex = i;
+
+						}
+					}
+					playerList.splice(tempPlayerListIndex, 1);
+
+					if (window.castReceiverManager.getSenders().length == 0) {
+						window.close();
+					}
+				};
+
+				// handler for 'systemvolumechanged' event
+				castReceiverManager.onSystemVolumeChanged = function(event) {
+					console.log('Received System Volume Changed event: ' + event.data['level'] + ' ' + event.data['muted']);
+				};
+
+				// create a CastMessageBus to handle messages for a custom namespace
+				window.messageBus = window.castReceiverManager.getCastMessageBus('urn:x-cast:com.google.cast.sample.helloworld');
+
+				// handler for the CastMessageBus message event
+				window.messageBus.onMessage = function(event) {
+					console.log('Message [' + event.senderId + ']: ' + event.data);
+
+					//we want to show the players that are connected to the game
+
+					if (isPlayerAlreadyConnected(playersList, event.senderId) == false) {
+
+						var newPlayer = {};
+						newPlayer.name = event.data;
+						newPlayer.senderId = event.senderId;
+
+						if (newPlayer.senderId != 'undefined' && newPlayer.senderId != null && newPlayer.senderId != '') {
+							playersList.push(newPlayer);
+
+						}
+						//sendRequestToBackend();
+
+						 $.get('http://mickey.io:3000/api/tabledefault', function(data){
+						 	
+						 
+						 	document.getElementById("consoleLog").innerHTML = JSON.stringify(data);
+						 	
+						 });
+						 
+						 
+						displayPlayerConnection(playersList);
+					}
+
+					// display the message from the sender
+					//displayText(event.data + " extra text ");
+					// inform all senders on the CastMessageBus of the incoming message event
+					// sender message listener will be invoked
+					window.messageBus.send(event.senderId, "hello message received");
+				}
+				// initialize the CastReceiverManager with an application status message
+				window.castReceiverManager.start({
+					statusText : "Application is starting"
+				});
+				console.log('Receiver Manager started');
+			};
+
+			// utility function to display the text message in the input field
+			function displayText(text) {
+				console.log(text + "gasdfa");
+				document.getElementById("message").innerHTML = text;
+				window.castReceiverManager.setApplicationState(text + "hello2");
+			};
+
+			function displayGameLog(playerListArray) {
+				var tempText = 'Game Log... <br>';
+
+				for (var i = 0; i < playersList.length; i++) {
+					tempText += playersList[i] + "<br>";
+				}
+				document.getElementById("gameLog").innerHTML = tempText;
+
+			}
+
+			function displayPlayerConnection(playersListArray) {
+
+				var tempText = 'Player Connection... <br>';
+
+				for (var i = 0; i < playersList.length; i++) {
+					tempText += "Player Name : " + playersList[i].name + "<br>" + "Player Id : " + playersList[i].senderId + "<br>";
+				}
+				document.getElementById("playerConnectionLog").innerHTML = tempText;
+
+			}
+
+			function isPlayerAlreadyConnected(playersListArray, newSenderId) {
+				var isConnected = false;
+				for (var i = 0; i < playersListArray.length; i++) {
+
+					if (playersListArray[i].senderId == newSenderId) {
+						isConnected = true;
+					}
+				}
+				return isConnected;
+			}
+
+		</script>
+
+	</body>
+=======
+  <head>
+    <style type="text/css">
+          body {
+            overflow:hidden;
+          }
+      div{
+            height:720PX;
+            width:1280PX;
+            text-align:center;
+            border:0px solid silver;
+            display: table-cell;
+            vertical-align:middle;
+            color:#FFFFFF;
+            background-color:#000000;
+            font-weight:bold;
+            font-family:Verdana, Geneva, sans-serif;
+            font-size:40px;
+        }
+    </style>
+    <title>Cast Hello Text</title>
+  </head>
+  <body>
+  	
+  	<!-- DEFAULT MESSAGE -->
+        <DIV id="message">Talk to me</DIV>
+    <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
+    <script type="text/javascript">
+      window.onload = function() {
+        cast.receiver.logger.setLevelValue(0);
+        window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+        console.log('Starting Receiver Manager');
+        
+        // handler for the 'ready' event
+        castReceiverManager.onReady = function(event) {
+          console.log('Received Ready event: ' + JSON.stringify(event.data));
+          window.castReceiverManager.setApplicationState("Application status is ready...");
+        };
+        
+        // handler for 'senderconnected' event
+        castReceiverManager.onSenderConnected = function(event) {
+          console.log('Received Sender Connected event: ' + event.data);
+          console.log(window.castReceiverManager.getSender(event.data).userAgent);
+        };
+        
+        // handler for 'senderdisconnected' event
+        castReceiverManager.onSenderDisconnected = function(event) {
+          console.log('Received Sender Disconnected event: ' + event.data);
+          if (window.castReceiverManager.getSenders().length == 0) {
+                window.close();
+              }
+        };
+        
+        // handler for 'systemvolumechanged' event
+        castReceiverManager.onSystemVolumeChanged = function(event) {
+          console.log('Received System Volume Changed event: ' + event.data['level'] + ' ' +
+              event.data['muted']);
+        };
+
+        // create a CastMessageBus to handle messages for a custom namespace
+        window.messageBus =
+          window.castReceiverManager.getCastMessageBus(
+              'urn:x-cast:com.google.cast.sample.helloworld');
+
+        // handler for the CastMessageBus message event
+        window.messageBus.onMessage = function(event) {
+          console.log('Message [' + event.senderId + ']: ' + event.data);
+          // display the message from the sender
+          displayText(event.data + " extra text ");
+          // inform all senders on the CastMessageBus of the incoming message event
+          // sender message listener will be invoked
+          window.messageBus.send(event.senderId, "hello message received");
+        }
+
+        // initialize the CastReceiverManager with an application status message
+        window.castReceiverManager.start({statusText: "Application is starting"});
+        console.log('Receiver Manager started');
+      };
+      
+      // utility function to display the text message in the input field
+      function displayText(text) {
+        console.log(text + "gasdfa");
+        //document.getElementById("message").innerHTML=text;
+        window.castReceiverManager.setApplicationState(text + "hello");
+      };
+    </script>
+  </body>
+>>>>>>> 5031229fba38ec7c8357e3ac26d8c7338b9755a4
+</html>
+
