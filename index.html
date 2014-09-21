@@ -309,6 +309,7 @@ limitations under the License.
 						if ("name" in (JSON.parse(event.data))) {
 							//sends player information to server
 							playersList[event.senderId] = JSON.parse(event.data).name;
+							console.log(playersList);
 						}
 
 						if ("START" in (JSON.parse(event.data))) {
