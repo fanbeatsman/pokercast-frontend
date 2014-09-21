@@ -270,11 +270,9 @@ limitations under the License.
 
 					// handler for 'senderconnected' event
 					castReceiverManager.onSenderConnected = function(event) {
-
 						console.log('Received Sender Connected event: ' + event.data);
 						console.log(window.castReceiverManager.getSender(event.data).userAgent);
-						playersList[senderId] = null;
-
+						playersList[event.senderId] = null;
 					};
 
 					// handler for 'senderdisconnected' event
@@ -282,12 +280,12 @@ limitations under the License.
 						console.log('Received Sender Disconnected event: ' + event.data);
 
 						// we want to remove the player from the player list if he disconnects
-						for (var i = 0; i < playerList.length; i++) {
-							if (playerList[i].senderId = event.senderId) {
+						for (var i = 0; i < playersList.length; i++) {
+							if (playersList[i].key() = event.senderId) {
 								var tempPlayerListIndex = i;
 							}
 						}
-						playerList.splice(tempPlayerListIndex, 1);
+						playersList.splice(tempPlayerListIndex, 1);
 
 						if (window.castReceiverManager.getSenders().length == 0) {
 							window.close();
@@ -349,20 +347,9 @@ limitations under the License.
 				function displayPlayerConnection(playersListArray) {
 
 					for (var i = 0; i < playersList.length; i++) {
-						console.log(playerList[i]);
+						console.log(playersList[i]);
 					}
 
-				}
-
-				function isPlayerAlreadyConnected(playersListArray, newSenderId) {
-					var isConnected = false;
-					for (var i = 0; i < playersListArray.length; i++) {
-
-						if (playersListArray[i].senderId == newSenderId) {
-							isConnected = true;
-						}
-					}
-					return isConnected;
 				}
 
 				function initializePokerTable() {
@@ -378,6 +365,7 @@ limitations under the License.
 
 				function getPlayers() {
 					$.get('http://mickey.io:3000/api/players', function(data) {
+						console.log(data);
 					});
 				}
 
@@ -388,6 +376,7 @@ limitations under the License.
 
 				function startGame() {
 					$.get('http://mickey.io:3000/api/startgame', function(data) {
+
 					});
 				}
 
@@ -413,6 +402,10 @@ limitations under the License.
 					$.get('http://mickey.io:3000/api/winner', function(data) {
 
 					});
+				}
+
+				function firstTurn() {
+					getPlayers();
 				}
 
 				function receiveConnectionFromDevice(event) {
@@ -451,7 +444,6 @@ limitations under the License.
 				}
 
 				function sendActionToServer(event, playerListArray) {
-
 					var playerAction = JSON.parse(event.data).action;
 					var playerName = getAssociatedPlayerName(playerListArray, event.senderId);
 					var betAmount = 0;
@@ -460,7 +452,6 @@ limitations under the License.
 						betAmount = JSON.parse(event.data).amount
 						makePlayerBet(playerName, playerAction, betAmount);
 					}
-
 					return;
 				}
 
