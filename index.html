@@ -317,7 +317,7 @@ limitations under the License.
 								console.log('2 logged in');
 								window.messageBus.send(arraySenderId[0], "START");
 							}
-						} else if ("ACTION" in (JSON.parse(event.data))) {
+						} else if ("START" in (JSON.parse(event.data))) {
 
 							for (var i = 1; i < arraySenderId.length; i++) {
 								window.messageBus.send(arraySenderId[i], "BEGIN")
