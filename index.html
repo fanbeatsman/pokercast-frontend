@@ -273,7 +273,7 @@ limitations under the License.
 
 						console.log('Received Sender Connected event: ' + event.data);
 						console.log(window.castReceiverManager.getSender(event.data).userAgent);
-						playersList.push(event.senderId);
+						playersList[senderId] = null;
 
 					};
 
