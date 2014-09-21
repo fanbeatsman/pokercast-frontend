@@ -1,0 +1,419 @@
+<!--
+Copyright (C) 2014 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		
+		<title>PokerCast</title>
+		
+
+
+<link href="css/poker.css" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- bootstrap -->
+
+  <link href="css/bootstrap-fluid-adj.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet"/>
+    <title>Sample Media Receiver</title>
+
+   <!-- <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
+  
+    <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/mediaplayer/0.7.0/media_player.js"></script>
+-->
+   
+</head>
+<body>
+<!--
+<div class="gallery packery">
+
+	<div class="item"> <img src="{% static 'cards/Spades/AS.svg' %}" /></div>
+
+
+</div>
+-->
+<div class="container-fluid">
+<div class="row-fluid" >
+<div class="span3 p1"><div class="score1"></div></div>
+<div class="span3 p2"><div class="score2"></div> </div>
+<div class="span3 p3"><div class="score3"></div></div>
+<div class="span3 p4"><div class="score4"><img src="cards/logo.png" style=":50%;width:50%;float:right;"/></div></div>
+
+</div>
+<br><br>
+<div class="row-fluid">
+<div class="span3">
+</div>
+<div class="span1 5-1" >
+
+</div>
+<div class="span1 5-2">
+
+</div>
+
+
+<div class="span1 1-1" class="1">
+</div>
+<div class="span1 1-2" class="1">
+</div>
+
+
+<div class="span1" >
+</div>
+
+</div>
+
+
+<div class="row-fluid">
+
+  <div class="span1 3-1" class="3">
+    
+
+  </div>
+   <div class="span1 3-2" class="3">
+    
+  </div>
+
+ <div class="span1">
+</div>
+ <div class="span1 field">
+ <div class="item">
+      <div class="flip-container c1 big" ontouchstart="this.classList.toggle('hover');">
+        <div class="flipper big">
+          <div class="front big">
+            <!-- front content -->
+
+          </div>
+          <div class="back big">
+            <img src="cards/cardback.png" />
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+ <div class="span1 field">
+<div class="item">
+      <div class="flip-container c2 big" ontouchstart="this.classList.toggle('hover');">
+        <div class="flipper big">
+          <div class="front big">
+            <!-- front content -->
+
+          </div>
+          <div class="back big">
+            <img src="cards/cardback.png" />
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+ <div class="span1 field">
+ <div class="item">
+      <div class="flip-container c3 big" ontouchstart="this.classList.toggle('hover');">
+        <div class="flipper big">
+          <div class="front big">
+            <!-- front content -->
+
+          </div>
+          <div class="back big">
+            <img src="cards/cardback.png" />
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+ <div class="span1 field">
+  <div class="item">
+      <div class="flip-container c4 big" ontouchstart="this.classList.toggle('hover');">
+        <div class="flipper big">
+          <div class="front big">
+            <!-- front content -->
+
+          </div>
+          <div class="back big">
+            <img src="cards/cardback.png" />
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+ <div class="span1 field" >
+  <div class="item">
+      <div class="flip-container c5 big" ontouchstart="this.classList.toggle('hover');">
+        <div class="flipper big">
+          <div class="front big">
+            <!-- front content -->
+
+          </div>
+          <div class="back big">
+            <img src="cards/cardback.png" />
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+ <div class="span1">
+</div>
+
+<div class="span1 4-1">
+    
+  </div>
+  <div class="span1 4-2" >
+    
+  </div>
+</div>
+
+<div class="row-fluid">
+
+  <div class="span3">
+  </div>
+
+  <div class="span1" >
+
+   
+  </div>
+
+  <div class="span1">
+  </div>
+  <div class="span1 2-1" class="2">
+  </div>
+  <div class="span1 2-2" class="2">
+  </div>
+  <div class="span1 6-1" class="6">
+  </div>
+    <div class="span1 6-2" class="6">
+  </div>
+
+
+</div>
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.easing.1.3.js"></script><script src="js/poker.min.js"></script><script src="js/pokercast.js"></script>
+
+
+<!--
+    <script type="text/javascript" src="js/init.js"></script>
+
+
+
+
+
+
+		<script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+		<script type="text/javascript">
+
+			var playersList = [];
+			var consoleLog = '';
+
+			window.onload = function() {
+				cast.receiver.logger.setLevelValue(0);
+				window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+				console.log('Starting Receiver Manager');
+
+				// handler for the 'ready' event
+				castReceiverManager.onReady = function(event) {
+					console.log('Received Ready event: ' + JSON.stringify(event.data));
+					window.castReceiverManager.setApplicationState("Application status is ready...");
+				};
+
+				// handler for 'senderconnected' event
+				castReceiverManager.onSenderConnected = function(event) {
+
+					console.log('Received Sender Connected event: ' + event.data);
+					console.log(window.castReceiverManager.getSender(event.data).userAgent);
+
+					//playersList.push('Sender ID = ' + event.senderId + ' || data = ' + event.data);
+
+				};
+
+				// handler for 'senderdisconnected' event
+				castReceiverManager.onSenderDisconnected = function(event) {
+					console.log('Received Sender Disconnected event: ' + event.data);
+
+					// we want to remove the player from the player list if he disconnects
+					for (var i = 0; i < playerList.length; i++) {
+
+						if (playerList[i].senderId = event.senderId) {
+							var tempPlayerListIndex = i;
+
+						}
+					}
+					playerList.splice(tempPlayerListIndex, 1);
+
+					if (window.castReceiverManager.getSenders().length == 0) {
+						window.close();
+					}
+				};
+
+				// handler for 'systemvolumechanged' event
+				castReceiverManager.onSystemVolumeChanged = function(event) {
+					console.log('Received System Volume Changed event: ' + event.data['level'] + ' ' + event.data['muted']);
+				};
+
+				// create a CastMessageBus to handle messages for a custom namespace
+				window.messageBus = window.castReceiverManager.getCastMessageBus('urn:x-cast:com.google.cast.sample.helloworld');
+
+				// handler for the CastMessageBus message event
+				window.messageBus.onMessage = function(event) {
+					console.log('Message [' + event.senderId + ']: ' + event.data);
+
+					//we want to show the players that are connected to the game
+
+					if (isPlayerAlreadyConnected(playersList, event.senderId) == false) {
+
+						var newPlayer = {};
+						newPlayer.name = event.data;
+						newPlayer.senderId = event.senderId;
+
+						if (newPlayer.senderId != 'undefined' && newPlayer.senderId != null && newPlayer.senderId != '') {
+							playersList.push(newPlayer);
+
+						}
+						//sendRequestToBackend();
+
+						 $.get('http://mickey.io:3000/api/tabledefault', function(data){
+						 	
+						 
+						 	document.getElementById("consoleLog").innerHTML = JSON.stringify(data);
+						 	
+						 });
+						 
+						 
+						displayPlayerConnection(playersList);
+					}
+
+					// display the message from the sender
+					//displayText(event.data + " extra text ");
+					// inform all senders on the CastMessageBus of the incoming message event
+					// sender message listener will be invoked
+					window.messageBus.send(event.senderId, "hello message received");
+				}
+				// initialize the CastReceiverManager with an application status message
+				window.castReceiverManager.start({
+					statusText : "Application is starting"
+				});
+				console.log('Receiver Manager started');
+			};
+
+			// utility function to display the text message in the input field
+			function displayText(text) {
+				console.log(text + "gasdfa");
+				document.getElementById("message").innerHTML = text;
+				window.castReceiverManager.setApplicationState(text + "hello2");
+			};
+
+			function displayGameLog(playerListArray) {
+				var tempText = 'Game Log... <br>';
+
+				for (var i = 0; i < playersList.length; i++) {
+					tempText += playersList[i] + "<br>";
+				}
+				document.getElementById("gameLog").innerHTML = tempText;
+
+			}
+
+			function displayPlayerConnection(playersListArray) {
+
+				var tempText = 'Player Connection... <br>';
+
+				for (var i = 0; i < playersList.length; i++) {
+					tempText += "Player Name : " + playersList[i].name + "<br>" + "Player Id : " + playersList[i].senderId + "<br>";
+				}
+				document.getElementById("playerConnectionLog").innerHTML = tempText;
+
+			}
+
+			function isPlayerAlreadyConnected(playersListArray, newSenderId) {
+				var isConnected = false;
+				for (var i = 0; i < playersListArray.length; i++) {
+
+					if (playersListArray[i].senderId == newSenderId) {
+						isConnected = true;
+					}
+				}
+				return isConnected;
+			}
+
+		</script>
+
+	
+
+        
+    <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
+    <script type="text/javascript">
+      window.onload = function() {
+        cast.receiver.logger.setLevelValue(0);
+        window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+        console.log('Starting Receiver Manager');
+        
+        // handler for the 'ready' event
+        castReceiverManager.onReady = function(event) {
+          console.log('Received Ready event: ' + JSON.stringify(event.data));
+          window.castReceiverManager.setApplicationState("Application status is ready...");
+        };
+        
+        // handler for 'senderconnected' event
+        castReceiverManager.onSenderConnected = function(event) {
+          console.log('Received Sender Connected event: ' + event.data);
+          console.log(window.castReceiverManager.getSender(event.data).userAgent);
+        };
+        
+        // handler for 'senderdisconnected' event
+        castReceiverManager.onSenderDisconnected = function(event) {
+          console.log('Received Sender Disconnected event: ' + event.data);
+          if (window.castReceiverManager.getSenders().length == 0) {
+                window.close();
+              }
+        };
+        
+        // handler for 'systemvolumechanged' event
+        castReceiverManager.onSystemVolumeChanged = function(event) {
+          console.log('Received System Volume Changed event: ' + event.data['level'] + ' ' +
+              event.data['muted']);
+        };
+
+        // create a CastMessageBus to handle messages for a custom namespace
+        window.messageBus =
+          window.castReceiverManager.getCastMessageBus(
+              'urn:x-cast:com.google.cast.sample.helloworld');
+
+        // handler for the CastMessageBus message event
+        window.messageBus.onMessage = function(event) {
+          console.log('Message [' + event.senderId + ']: ' + event.data);
+          // display the message from the sender
+          displayText(event.data + " extra text ");
+          // inform all senders on the CastMessageBus of the incoming message event
+          // sender message listener will be invoked
+          window.messageBus.send(event.senderId, event.data);
+        }
+
+        // initialize the CastReceiverManager with an application status message
+        window.castReceiverManager.start({statusText: "Application is starting"});
+        console.log('Receiver Manager started');
+      };
+      
+      // utility function to display the text message in the input field
+      function displayText(text) {
+        console.log(text + "gasdfa");
+        //document.getElementById("message").innerHTML=text;
+        window.castReceiverManager.setApplicationState(text + "hello");
+      };
+    </script>-->
+  </body>
+</html>
+
