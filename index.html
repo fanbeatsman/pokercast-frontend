@@ -254,6 +254,8 @@ limitations under the License.
 			<script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
 			<script type="text/javascript">
 				var playersList = [];
+				var arraySenderId = [];
+				var arrayName = [];
 
 				window.onload = function() {
 					cast.receiver.logger.setLevelValue(0);
@@ -272,7 +274,6 @@ limitations under the License.
 					castReceiverManager.onSenderConnected = function(event) {
 						console.log('Received Sender Connected event: ' + event.data);
 						console.log(window.castReceiverManager.getSender(event.data).userAgent);
-						playersList[event.senderId] = null;
 					};
 
 					// handler for 'senderdisconnected' event
@@ -307,7 +308,12 @@ limitations under the License.
 						if ("name" in (JSON.parse(event.data))) {
 							//sends player information to server
 							playersList[event.senderId] = JSON.parse(event.data).name;
+							arraySenderId.push(event.senderId);
+							arrayName.push(JSON.parse(event.data).name);
 							console.log(playersList);
+							console.log(arraySenderId);
+							console.log(arrayName);
+							if (playersList.length > 1 ) window.messageBus.send(arraySenderId[0], "START");
 						}
 
 						if ("START" in (JSON.parse(event.data))) {
@@ -345,11 +351,9 @@ limitations under the License.
 				};
 
 				function displayPlayerConnection(playersListArray) {
-
 					for (var i = 0; i < playersList.length; i++) {
 						console.log(playersList[i]);
 					}
-
 				}
 
 				function initializePokerTable() {
