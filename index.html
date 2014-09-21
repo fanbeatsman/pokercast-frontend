@@ -318,8 +318,8 @@ limitations under the License.
 
 						if ("START" in (JSON.parse(event.data))) {
 
-							for (int i = 1; i < arraySenderId.length; i++) window.messageBus.send(arraySenderId[i], "BEGIN")
-								
+							for (int i = 1; i < arraySenderId.length(); i++) window.messageBus.send(arraySenderId[i], "BEGIN")
+
 							//sends player information to server
 							startGame();
 						}
