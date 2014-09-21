@@ -317,8 +317,8 @@ limitations under the License.
 								console.log('2 logged in');
 								window.messageBus.send(arraySenderId[0], "START");
 							}
-						} else if ("START" in (JSON.parse(event.data))) {
-							console.log("GOT START");
+						} else if ("ACTION" in (JSON.parse(event.data))) {
+
 							for (var i = 1; i < arraySenderId.length; i++) {
 								window.messageBus.send(arraySenderId[i], "BEGIN")
 							}
@@ -472,51 +472,51 @@ limitations under the License.
 					return '';
 				}
 
-				// $(function() {
+				 $(function() {
 
-				// 	var players = ["fan", "usmann"];
-				// 	var request = CallAndUpdate('http://mickey.io:3000/api/tabledefault/');
-				// 	makeSetup(totalPlayers, players);
-				// 	var request = CallAndUpdate('http://mickey.io:3000/api/startgame/');
-				// 	/*var request = CallAndUpdate('http://mickey.io:3000/api/tabledefault');
-				// 	 var request = CallAndUpdate('http://mickey.io:3000/api/addplayer/fan/1000');
-				// 	 var request = CallAndUpdate('http://mickey.io:3000/api/addplayer/usmann/1000');
-				// 	 var request = CallAndUpdate('http://mickey.io:3000/api/startgame');
-				// 	 */
+				 	var players = ["fan", "usmann"];
+				 	var request = CallAndUpdate('http://mickey.io:3000/api/tabledefault/');
+				 	makeSetup(totalPlayers, players);
+				 	var request = CallAndUpdate('http://mickey.io:3000/api/startgame/');
+				 	/*var request = CallAndUpdate('http://mickey.io:3000/api/tabledefault');
+				 	 var request = CallAndUpdate('http://mickey.io:3000/api/addplayer/fan/1000');
+				 	 var request = CallAndUpdate('http://mickey.io:3000/api/addplayer/usmann/1000');
+				 	 var request = CallAndUpdate('http://mickey.io:3000/api/startgame');
+				 	 */
 
-				// 	var request = CallAndUpdate('http://mickey.io:3000/api/player/usmann/call');
-				// 	var request = CallAndUpdate('http://mickey.io:3000/api/player/fan/check');
-				// 	var request = CallAndUpdate('http://mickey.io:3000/api/player/usmann/check');
-				// 	var request = CallAndUpdate('http://mickey.io:3000/api/player/fan/check');
-				// 	console.log(CallAndUpdate('http://mickey.io:3000/api/player/usmann/check'));
+				 	var request = CallAndUpdate('http://mickey.io:3000/api/player/usmann/call');
+				 	var request = CallAndUpdate('http://mickey.io:3000/api/player/fan/check');
+				 	var request = CallAndUpdate('http://mickey.io:3000/api/player/usmann/check');
+				 	var request = CallAndUpdate('http://mickey.io:3000/api/player/fan/check');
+				 	console.log(CallAndUpdate('http://mickey.io:3000/api/player/usmann/check'));
 
-				// 	while (playerNum < totalPlayers + 1) {
-				// 		addPokerPlayer('AS', 'KH');
-				// 	}
-				// 	setInitScore(totalPlayers);
-				// 	var tableCards = new Array();
-				// 	CallAndUpdate('http://mickey.io:3000/api/player/fan/check', tableCards);
-				// 	console.log("tablecards:" + tableCards[1]);
-				// 	setTable(tableCards[0], tableCards[1], tableCards[2], tableCards[3], tableCards[4]);
-				// 	$('.flip-container').toggleClass('hover');
-				// 	$('.flip-container').toggleClass('hover');
-				// 	$('#test').click(function() {
-				// 		$('.flip-container').toggleClass('hover');
-				// 	});
+				 	while (playerNum < totalPlayers + 1) {
+				 		addPokerPlayer('AS', 'KH');
+				 	}
+				 	setInitScore(totalPlayers);
+				 	var tableCards = new Array();
+				 	CallAndUpdate('http://mickey.io:3000/api/player/fan/check', tableCards);
+				 	console.log("tablecards:" + tableCards[1]);
+				 	setTable(tableCards[0], tableCards[1], tableCards[2], tableCards[3], tableCards[4]);
+				 	$('.flip-container').toggleClass('hover');
+				 	$('.flip-container').toggleClass('hover');
+				 	$('#test').click(function() {
+				 		$('.flip-container').toggleClass('hover');
+				 	});
 
-				// 	updateScore(2, 99);
-				// 	console.log("WINNNERERER");
-				// 	console.log(CallAndUpdate('http://mickey.io:3000/api/winner'));
-				// 	var request = CallAndUpdate('http://mickey.io:3000/api/player/usmann/check');
-				// 	var request = CallAndUpdate('http://mickey.io:3000/api/player/fan/check');
-				// 	var request = CallAndUpdate('http://mickey.io:3000/api/player/usmann/check');
-				// 	var request = CallAndUpdate('http://mickey.io:3000/api/player/fan/check');
-				// 	var request = CallAndUpdate('http://mickey.io:3000/api/player/usmann/check');
-				// 	var winner;
-				// 	console.log("REAL iNNERNERN");
-				// 	var request = CallAndUpdate('http://mickey.io:3000/api/winner');
+				 	updateScore(2, 99);
+				 	console.log("WINNNERERER");
+				 	console.log(CallAndUpdate('http://mickey.io:3000/api/winner'));
+				 	var request = CallAndUpdate('http://mickey.io:3000/api/player/usmann/check');
+				 	var request = CallAndUpdate('http://mickey.io:3000/api/player/fan/check');
+				 	var request = CallAndUpdate('http://mickey.io:3000/api/player/usmann/check');
+				 	var request = CallAndUpdate('http://mickey.io:3000/api/player/fan/check');
+				 	var request = CallAndUpdate('http://mickey.io:3000/api/player/usmann/check');
+				 	var winner;
+				 	console.log("REAL iNNERNERN");
+				 	var request = CallAndUpdate('http://mickey.io:3000/api/winner');
 
-				// });
+				 });
 
 			</script>
 
