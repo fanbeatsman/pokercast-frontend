@@ -318,7 +318,7 @@ limitations under the License.
 								window.messageBus.send(arraySenderId[0], "START");
 							}
 						} else if ("START" in (JSON.parse(event.data))) {
-
+							console.log("GOT START");
 							for (var i = 1; i < arraySenderId.length; i++) {
 								window.messageBus.send(arraySenderId[i], "BEGIN")
 							}
