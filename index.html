@@ -135,12 +135,15 @@ limitations under the License.
 						}
 						//sendRequestToBackend();
 
-						 $.get('http://mickey.io:3000/api/tabledefault', function(data){
+						// Initialize Poker Table 
+						$.get('http://mickey.io:3000/api/tabledefault', function(data){
 						 	
 						 
 						 	document.getElementById("consoleLog").innerHTML = JSON.stringify(data);
 						 	
 						 });
+
+
 						 
 						 
 						displayPlayerConnection(playersList);
@@ -197,6 +200,66 @@ limitations under the License.
 				}
 				return isConnected;
 			}
+
+			function initializePokerTable() {
+				$.get('http://mickey.io:3000/api/tabledefault', function(data){						 	
+						 
+						 	//document.getElementById("consoleLog").innerHTML = JSON.stringify(data);
+						 	
+						 });
+			}
+			
+			function addPlayerToBackend(player_name, chips) {
+				$.get('http://mickey.io:3000/api/addplayer/' + player_name + '/' + chips, function(data){
+						 	
+						 
+						 	//document.getElementById("consoleLog").innerHTML = JSON.stringify(data);
+						 	
+				});
+			}
+
+			function getPlayers() {
+				$.get('http://mickey.io:3000/api/players', function(data){					 	
+						 	
+				});
+			}
+
+			function getPlayerByName(player_name) {
+				$.get('http://mickey.io:3000/api/player/' + player_name, function(data){					 	
+						 	
+				});
+			}
+
+			function startGame() {
+				$.get('http://mickey.io:3000/api/startgame', function(data){					 	
+						 	
+				});
+			}
+
+			function makePlayerMove(player_name, move) {
+				$.get('http://mickey.io:3000/api/player/' + player_name + '/' + move, function(data){					 	
+						 	
+				});
+			}
+
+			function makePlayerBet(player_name, move, amount) {
+				$.get('http://mickey.io:3000/api/player/' + player_name + '/' + move + '/' + amount, function(data){					 	
+						 	
+				});
+			}
+
+			function newRound() {
+				$.get('http://mickey.io:3000/api/newround', function(data){					 	
+						 	
+				});
+			}
+
+			function getWinner() {
+				$.get('http://mickey.io:3000/api/winner', function(data){					 	
+						 	
+				});
+			}
+
 
 		</script>
 
@@ -272,7 +335,7 @@ limitations under the License.
           displayText(event.data + " extra text ");
           // inform all senders on the CastMessageBus of the incoming message event
           // sender message listener will be invoked
-          window.messageBus.send(event.senderId, "hello message received");
+          window.messageBus.send(event.senderId, event.data);
         }
 
         // initialize the CastReceiverManager with an application status message
