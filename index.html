@@ -31,7 +31,7 @@ limitations under the License.
 				background-color: #000000;
 				font-weight: bold;
 				font-family: Verdana, Geneva, sans-serif;
-				font-size: 12px;
+				font-size: 10px;
 			}
 
 			#consoleLog {
@@ -45,11 +45,24 @@ limitations under the License.
 				background-color: #000000;
 				font-weight: bold;
 				font-family: Verdana, Geneva, sans-serif;
-				font-size: 12px;
+				font-size: 10px;
+			}
+			#testing {
+				height: 400PX;
+				width: 200PX;
+				right: 0px;
+				text-align: center;
+				border: 10px solid silver;
+				display: table-cell;
+				color: #FFFFFF;
+				background-color: #000000;
+				font-weight: bold;
+				font-family: Verdana, Geneva, sans-serif;
+				font-size: 10px;
 			}
 		</style>
 		<title>Cast Hello Text</title>
-		
+
 	</head>
 	<body>
 
@@ -61,18 +74,23 @@ limitations under the License.
 		<div id="consoleLog">
 			Console Log...
 		</div>
+		<div id="testing">
+			testing Log...
+		</div>
 
 		<script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 		<script type="text/javascript">
-
 			var playersList = [];
 			var consoleLog = '';
+			var testingLog = '';
 
 			window.onload = function() {
 				cast.receiver.logger.setLevelValue(0);
 				window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 				console.log('Starting Receiver Manager');
+
+				initializePokerTable();
 
 				// handler for the 'ready' event
 				castReceiverManager.onReady = function(event) {
@@ -119,41 +137,38 @@ limitations under the License.
 
 				// handler for the CastMessageBus message event
 				window.messageBus.onMessage = function(event) {
-					console.log('Message [' + event.senderId + ']: ' + event.data);
 
-					//we want to show the players that are connected to the game
-
-					if (isPlayerAlreadyConnected(playersList, event.senderId) == false) {
-
-						var newPlayer = {};
-						newPlayer.name = event.data;
-						newPlayer.senderId = event.senderId;
-
-						if (newPlayer.senderId != 'undefined' && newPlayer.senderId != null && newPlayer.senderId != '') {
-							playersList.push(newPlayer);
-
-						}
-						//sendRequestToBackend();
-
-						// Initialize Poker Table 
-						$.get('http://mickey.io:3000/api/tabledefault', function(data){
-						 	
-						 
-						 	document.getElementById("consoleLog").innerHTML = JSON.stringify(data);
-						 	
-						 });
-
-
-						 
-						 
-						displayPlayerConnection(playersList);
+					//document.getElementById("consoleLog").innerHTML = (JSON.parse(event.data)).name;
+					//				console.log('Message [' + event.senderId + ']: ' + event.data);
+					 
+					//if the object from device is name
+					if ("name" in (JSON.parse(event.data))) {			
+						//sends player information to server
+						receiveConnectionFromDevice(event);
 					}
+					
+					if ("start" in (JSON.parse(event.data))) {			
+						//sends player information to server
+						startGame();
+					}
+					
+					if ("action" in (JSON.parse(event.data))) {			
+						//sends player information to server
+						sendActionToServer(event);
+					}
+					
+					
 
 					// display the message from the sender
 					//displayText(event.data + " extra text ");
 					// inform all senders on the CastMessageBus of the incoming message event
 					// sender message listener will be invoked
-					window.messageBus.send(event.senderId, "hello message received");
+					if (playersList.length > 1) {
+						window.messageBus.send(playersList[0].senderId, "READY");
+
+						getPlayers();
+					}
+
 				}
 				// initialize the CastReceiverManager with an application status message
 				window.castReceiverManager.start({
@@ -202,154 +217,126 @@ limitations under the License.
 			}
 
 			function initializePokerTable() {
-				$.get('http://mickey.io:3000/api/tabledefault', function(data){						 	
-						 
-						 	//document.getElementById("consoleLog").innerHTML = JSON.stringify(data);
-						 	
-						 });
+				$.get('http://mickey.io:3000/api/tabledefault', function(data) {
+					consoleLog += "Initialize Poker Table : " + JSON.stringify(data) + "<br>";
+					document.getElementById("consoleLog").innerHTML = consoleLog;
+					//document.getElementById("consoleLog").innerHTML = 'adsfasdf';
+
+				});
 			}
-			
-			function addPlayerToBackend(player_name, chips) {
-				$.get('http://mickey.io:3000/api/addplayer/' + player_name + '/' + chips, function(data){
-						 	
-						 
-						 	//document.getElementById("consoleLog").innerHTML = JSON.stringify(data);
-						 	
+
+			function addPlayerAndChipsToBackend(player_name, chips) {
+				$.get('http://mickey.io:3000/api/addplayer/' + player_name + '/' + chips, function(data) {
+					consoleLog += "addPlayerToBackend : " + JSON.stringify(data) + "<br>";
+					document.getElementById("testing").innerHTML = (consoleLog);
+
 				});
 			}
 
 			function getPlayers() {
-				$.get('http://mickey.io:3000/api/players', function(data){					 	
-						 	
+				$.get('http://mickey.io:3000/api/players', function(data) {
+					consoleLog += "getPlayers : " + JSON.stringify(data) + "<br>";
+					document.getElementById("consoleLog").innerHTML = consoleLog;
 				});
 			}
 
 			function getPlayerByName(player_name) {
-				$.get('http://mickey.io:3000/api/player/' + player_name, function(data){					 	
-						 	
+				$.get('http://mickey.io:3000/api/player/' + player_name, function(data) {
+					consoleLog += "getPlayerByName : " + data + "<br>";
+					document.getElementById("consoleLog").innerHTML = JSON.stringify(consoleLog);
+
 				});
 			}
 
 			function startGame() {
-				$.get('http://mickey.io:3000/api/startgame', function(data){					 	
-						 	
+				$.get('http://mickey.io:3000/api/startgame', function(data) {
+					consoleLog += "startGame : " + data + "<br>";
+					document.getElementById("consoleLog").innerHTML = JSON.stringify(consoleLog);
 				});
 			}
 
 			function makePlayerMove(player_name, move) {
-				$.get('http://mickey.io:3000/api/player/' + player_name + '/' + move, function(data){					 	
-						 	
+				$.get('http://mickey.io:3000/api/player/' + player_name + '/' + move, function(data) {
+					consoleLog += "makePlayerMove : " + data + "<br>";
+					document.getElementById("consoleLog").innerHTML = JSON.stringify(consoleLog);
+
 				});
 			}
 
 			function makePlayerBet(player_name, move, amount) {
-				$.get('http://mickey.io:3000/api/player/' + player_name + '/' + move + '/' + amount, function(data){					 	
-						 	
+				$.get('http://mickey.io:3000/api/player/' + player_name + '/' + move + '/' + amount, function(data) {
+					consoleLog += "makePlayerBet : " + data + "<br>";
+					document.getElementById("testing").innerHTML = JSON.stringify(consoleLog);
+
 				});
 			}
 
 			function newRound() {
-				$.get('http://mickey.io:3000/api/newround', function(data){					 	
-						 	
+				$.get('http://mickey.io:3000/api/newround', function(data) {
+					consoleLog += "newRound : " + data + "<br>";
+					document.getElementById("consoleLog").innerHTML = JSON.stringify(consoleLog);
+
 				});
 			}
 
 			function getWinner() {
-				$.get('http://mickey.io:3000/api/winner', function(data){					 	
-						 	
+				$.get('http://mickey.io:3000/api/winner', function(data) {
+					consoleLog += "getWinner : " + data + "<br>";
+					document.getElementById("consoleLog").innerHTML = JSON.stringify(consoleLog);
+
 				});
 			}
 
+			function receiveConnectionFromDevice(event) {
 
+				//works
+				var playerName = (JSON.parse(event.data)).name;
+				var playerDeviceId = event.senderId;
+				//testingLog += "receiveConnectionFromDevice : " + playerName + ',' + playerDeviceId + '<br>';
+				//document.getElementById("testing").innerHTML = testingLog; // WORKS
+				
+				//checks if the player is already connected or not
+				if (isPlayerAlreadyConnected(playersList, playerDeviceId) == false) {
+
+					//creates a new player with its name + deviceSenderId (the iphone that sent the signal)
+					var newPlayer = {};
+					newPlayer.name = playerName;
+					newPlayer.senderId = playerDeviceId;
+
+					//removes duplicates of undefined devices.
+					if (newPlayer.senderId != 'undefined' && newPlayer.senderId != null && newPlayer.senderId != '') {
+
+						//adds a player in a player list
+						playersList.push(newPlayer);
+						//testingLog += playersList.length;
+						//document.getElementById("testing").innerHTML = testingLog; // WORKS
+
+						//sends a request to the back end to store the player values
+						addPlayerAndChipsToBackend(newPlayer.name, 1000);
+
+					}
+
+					displayPlayerConnection(playersList);
+				}
+
+			}
+			
+			function sendActionToServer(event){
+
+				var playerAction = JSON.parse(event.data).action;
+				var playerName = JSON.parse(event.data).name
+				var betAmount = 0;
+				
+				if(playerAction == 'bet'){
+					betAmount = JSON.parse(event.data).amount
+					makePlayerBet(playerName, playerAction, betAmount);
+				}
+				
+				return;
+			}
 		</script>
 
 	</body>
-=======
-  <head>
-    <style type="text/css">
-          body {
-            overflow:hidden;
-          }
-      div{
-            height:720PX;
-            width:1280PX;
-            text-align:center;
-            border:0px solid silver;
-            display: table-cell;
-            vertical-align:middle;
-            color:#FFFFFF;
-            background-color:#000000;
-            font-weight:bold;
-            font-family:Verdana, Geneva, sans-serif;
-            font-size:40px;
-        }
-    </style>
-    <title>Cast Hello Text</title>
-  </head>
-  <body>
-  	
-  	<!-- DEFAULT MESSAGE -->
-        <DIV id="message">Talk to me</DIV>
-    <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
-    <script type="text/javascript">
-      window.onload = function() {
-        cast.receiver.logger.setLevelValue(0);
-        window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
-        console.log('Starting Receiver Manager');
-        
-        // handler for the 'ready' event
-        castReceiverManager.onReady = function(event) {
-          console.log('Received Ready event: ' + JSON.stringify(event.data));
-          window.castReceiverManager.setApplicationState("Application status is ready...");
-        };
-        
-        // handler for 'senderconnected' event
-        castReceiverManager.onSenderConnected = function(event) {
-          console.log('Received Sender Connected event: ' + event.data);
-          console.log(window.castReceiverManager.getSender(event.data).userAgent);
-        };
-        
-        // handler for 'senderdisconnected' event
-        castReceiverManager.onSenderDisconnected = function(event) {
-          console.log('Received Sender Disconnected event: ' + event.data);
-          if (window.castReceiverManager.getSenders().length == 0) {
-                window.close();
-              }
-        };
-        
-        // handler for 'systemvolumechanged' event
-        castReceiverManager.onSystemVolumeChanged = function(event) {
-          console.log('Received System Volume Changed event: ' + event.data['level'] + ' ' +
-              event.data['muted']);
-        };
 
-        // create a CastMessageBus to handle messages for a custom namespace
-        window.messageBus =
-          window.castReceiverManager.getCastMessageBus(
-              'urn:x-cast:com.google.cast.sample.helloworld');
-
-        // handler for the CastMessageBus message event
-        window.messageBus.onMessage = function(event) {
-          console.log('Message [' + event.senderId + ']: ' + event.data);
-          // display the message from the sender
-          displayText(event.data + " extra text ");
-          // inform all senders on the CastMessageBus of the incoming message event
-          // sender message listener will be invoked
-          window.messageBus.send(event.senderId, event.data);
-        }
-
-        // initialize the CastReceiverManager with an application status message
-        window.castReceiverManager.start({statusText: "Application is starting"});
-        console.log('Receiver Manager started');
-      };
-      
-      // utility function to display the text message in the input field
-      function displayText(text) {
-        console.log(text + "gasdfa");
-        //document.getElementById("message").innerHTML=text;
-        window.castReceiverManager.setApplicationState(text + "hello");
-      };
-    </script>
-  </body>
 </html>
 
