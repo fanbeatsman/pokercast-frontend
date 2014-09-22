@@ -144,17 +144,17 @@ limitations under the License.
 					//if the object from device is name
 					if ("name" in (JSON.parse(event.data))) {			
 						//sends player information to server
-						receiveConnectionFromDevice(event);
+						var playerMapping = receiveConnectionFromDevice(event);
 					}
 					
-					if ("start" in (JSON.parse(event.data))) {			
+					if ("START" in (JSON.parse(event.data))) {			
 						//sends player information to server
 						startGame();
 					}
 					
 					if ("action" in (JSON.parse(event.data))) {			
 						//sends player information to server
-						sendActionToServer(event);
+						sendActionToServer(event, playerMapping);
 					}
 					
 					
@@ -318,13 +318,14 @@ limitations under the License.
 
 					displayPlayerConnection(playersList);
 				}
+				return playerList;
 
 			}
 			
-			function sendActionToServer(event){
+			function sendActionToServer(event, playerListArray){
 
 				var playerAction = JSON.parse(event.data).action;
-				var playerName = JSON.parse(event.data).name
+				var playerName = getAssociatedPlayerName(playerListArray, event.senderId);
 				var betAmount = 0;
 				
 				if(playerAction == 'bet'){
@@ -334,6 +335,21 @@ limitations under the License.
 				
 				return;
 			}
+			
+			function getAssociatedPlayerName(playerListObjectArray, senderId){
+				
+				for(var i = 0; i < playerListObjectArray.length; i ++){
+					
+					if(playerListObjectArray[i].senderId == senderId){
+						return playerListObjectArray[i].name;
+					}
+					
+				}
+				
+				return '';
+				
+			}
+			
 		</script>
 
 	</body>
