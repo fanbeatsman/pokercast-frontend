@@ -227,18 +227,21 @@ function makeRound(totalPlayers, playernames){
 
 }
 
-
+/*
 $(function(){
 
 var players = ["fan","usmann"];
 var request = CallAndUpdate('http://mickey.io:3000/api/tabledefault/');
 makeSetup(totalPlayers,players);
 var request = CallAndUpdate('http://mickey.io:3000/api/startgame/');
-/*var request = CallAndUpdate('http://mickey.io:3000/api/tabledefault');
+
+
+
+var request = CallAndUpdate('http://mickey.io:3000/api/tabledefault');
 var request = CallAndUpdate('http://mickey.io:3000/api/addplayer/fan/1000');
 var request = CallAndUpdate('http://mickey.io:3000/api/addplayer/usmann/1000');
 var request = CallAndUpdate('http://mickey.io:3000/api/startgame');
-*/
+
 
 
 
@@ -276,3 +279,4 @@ console.log("REAL iNNERNERN");
 var request = CallAndUpdate('http://mickey.io:3000/api/winner');
 
 });
+*/
